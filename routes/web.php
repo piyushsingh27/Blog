@@ -11,16 +11,7 @@
 |
 */
 
-/*
-Route::get('/', function () {
-    return view('welcome');
-});*/
 
-/*
-Route::get('/hello', function () {
-    //return view('welcome');
-    return("Hello World");
-});*/
 
 Route::get('/index','PagesController@index');
 
@@ -30,30 +21,12 @@ Route::get('/services','PagesController@services');
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
+Route::get('verify/{token}','\App\Http\Controllers\Auth\RegisterController@verify')->name('verify');
+
+//Route::get('verifyEmailFirst','\App\Http\Controllers\Auth\RegisterController@verifyEmailFirst')->name('verifyEmailFirst');
 
 Route::resource('/posts', 'PostsController');
 
-//Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-   // \UniSharp\LaravelFilemanager\Lfm::routes();
-//});
-/*
-Route::get('/users/{id}', function ($id) {
-    //return view('welcome');
-    return 'This is user' .$id;
-});*/
-//Auth::routes();
-
-//Route::get('/home', 'HomeController@index');
-
-
-
-//Auth::routes();
-
-//Route::get('/home', 'HomeController@index')->name('home');
-
-//Auth::routes();
-
-//Route::get('/home', 'HomeController@index')->name('home');
 
 
 Auth::routes();

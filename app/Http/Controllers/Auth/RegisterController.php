@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Notifications\VerifyEmail;
 
 class RegisterController extends Controller
 {
@@ -40,6 +41,15 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function verify($token)
+    {
+        $user = User::where('token',$token)->firstOrFail();
+
+        $user->update(['token' => null]);
+
+        return redirect('/home')->with('success','Account');
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -63,10 +73,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'token' => str_random(25),
         ]);
+
+
+        $user->notify(new VerifyEmail($user));
+
+        return $user;
     }
 }
