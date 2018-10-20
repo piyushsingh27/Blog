@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPasswordNotification;
-use App\Notifications\VerifyEmail;
+// use App\Notifications\VerifyEmail;
 
 class User extends Authenticatable
 {
@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','token',
+        'name', 'email', 'password','is_activated',
     ];
 
     /**
@@ -38,15 +38,15 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($token));
     }
 
-    public function verified()
-    {
-        return $this->token == null;
-    }
+    // public function verified()
+    // {
+    //     return $this->token == null;
+    // }
 
-    public function sendVerificationEmail()
-    {
-        $this->notify(new VerifyEmail($this));
-    }
+    // public function sendVerificationEmail()
+    // {
+    //     $this->notify(new VerifyEmail($this));
+    // }
 
 
 }

@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use App\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -42,8 +42,24 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * Get the guard to be used during registration.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard();
+    }
+
     public function logout(Request $request) {
         Auth::logout();
         return redirect('/login');
       }
+
+      public function credentials(Request $request)
+    {
+        $request['is_activated'] = 1;
+        return $request->only('email', 'password', 'is_activated');
+    }  
 }
